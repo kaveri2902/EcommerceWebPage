@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product Catalog</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .product {
+            border: 1px solid #ccc;
+            margin: 10px;
+            padding: 10px;
+            display: inline-block;
+            width: 20%;
+            height: 500px;
+            overflow: hidden;
+            object-fit:fill;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            background-color:lightcyan;
+        }
+
+        .product img {
+            max-width: 100%;
+           
+           
+        }
+
+        .product-title {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .product-description {
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+
+        .product-price {
+            margin-top: 10px;
+            font-size: 1rem;
+        }
+
+        .product-rating {
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+
+        .product-stock {
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">Products List</h1>
+    <div class="products" id="product-container">
+        <!-- Products will be displayed here using JavaScript -->
+    </div>
+
+    <script>
+        // Fetch the product data
+        fetch("https://dummyjson.com/products")
+            .then(response => response.json())
+            .then(data => {
+                const productContainer = document.getElementById("product-container");
+                const products = data.products;
+
+                products.forEach(product => {
+                    const productElement = document.createElement("div");
+                    productElement.className = "product";
+
+                    productElement.innerHTML = `
+                        <img  src="${product.thumbnail}" alt="Product Image" >
+                        <div class="product-title">${product.title}</div>
+                        <div class="product-description">${product.description}</div>
+                        <div class="product-price">$${product.price.toFixed(2)}</div>
+                        <div class="product-rating">Rating: ${product.rating}</div>
+                        <div class="product-stock">In Stock: ${product.stock}</div>
+                    `;
+
+                    productContainer.appendChild(productElement);
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    </script>
+</body>
+</html>
